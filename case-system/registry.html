@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Case Registry</h1>
+
+{% for c in cases %}
+<p><b>{{ c.username }}</b> — {{ c.reason }}</p>
+{% endfor %}
+
+</body>
+</html>

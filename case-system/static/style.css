@@ -1,0 +1,77 @@
+:root {
+  --bg: #0b0f16;
+  --card: #111827;
+  --muted: #9ca3af;
+  --text: #e5e7eb;
+  --accent: #60a5fa;
+  --accent2: #a78bfa;
+}
+
+body {
+  background: radial-gradient(1200px 600px at 10% 0%, rgba(96,165,250,0.15), transparent 60%),
+              radial-gradient(1200px 600px at 90% 10%, rgba(167,139,250,0.12), transparent 55%),
+              var(--bg);
+  color: var(--text);
+}
+
+.navbar {
+  background: rgba(17, 24, 39, 0.85) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.card {
+  background: rgba(17, 24, 39, 0.85);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 18px;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+}
+
+.badge-soft {
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+}
+
+.badge-open {
+  background: rgba(34,197,94,0.12);
+  border-color: rgba(34,197,94,0.25);
+  color: #86efac;
+}
+
+.badge-closed {
+  background: rgba(239,68,68,0.12);
+  border-color: rgba(239,68,68,0.25);
+  color: #fca5a5;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: #93c5fd; }
+
+.table-dark {
+  --bs-table-bg: transparent;
+  --bs-table-striped-bg: rgba(255,255,255,0.03);
+  --bs-table-hover-bg: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.06);
+}
+
+small, .text-muted { color: var(--muted) !important; }
+
+.hero {
+  padding: 22px 0 6px 0;
+}
+
+.hero h1 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+}

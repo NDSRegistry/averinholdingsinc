@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="mb-3">
+  <h1 class="h3 mb-1">Registry</h1>
+  <div class="text-muted">Search, filter, and review cases. Click a user to open the full dossier.</div>
+</div>
+
+<div class="alert alert-secondary alert-soft border-0">
+  <strong>Registry Notice:</strong>
+  This system is an internal compliance and safety registry operated by Averin Holdings.
+  All records are staff-generated, auditable, and confidential.
+</div>
+
+<form class="card card-glass p-3 mb-3">
+  <div class="row g-2 align-items-end">
+    <div class="col-md-4">
+      <label class="form-label small text-muted">Search</label>
+      <input class="form-control" name="q" value="{{ filters.q }}" placeholder="User identifier...">
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label small text-muted">Status</label>
+      <select class="form-select" name="status">
+        <option value="">All</option>
+        <option value="OPEN" {% if filters.status == "OPEN" %}selected{% endif %}>OPEN</option>
+        <option value="CLOSED" {% if filters.status == "CLOSED" %}selected{% endif %}>CLOSED</option>
+        <option value="ARCHIVED" {% if filters.status == "ARCHIVED" %}selected{% endif %}>ARCHIVED</option>
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label small text-muted">Case Type</label>
+      <select class="form-select" name="type">
+        <option value="">All</option>
+        {% for t in CASE_TYPES %}
+          <option value="{{ t }}" {% if filters.type == t %}selected{% endif %}>{{ t }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label small text-muted">Platform</label>
+      <select class="form-select" name="platform">
+        <option value="">All</option>
+        {% for p in PLATFORMS %}
+          <option value="{{ p }}" {% if filters.platform == p %}selected{% endif %}>{{ p }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-1 d-grid">
+      <button class="btn btn-primary">Go</button>
+    </div>
+  </div>
+</form>
+
+<div class="card card-glass p-0 overflow-hidden">
+  <div class="table-responsive">
+    <table class="table table-dark table-hover table-striped align-middle mb-0">
+      <thead>
+        <tr>
+          <th style="width:110px;">Case</th>
+          <th>User</th>
+          <th style="width:160px;">Type</th>
+          <th style="width:140px;">Platform</th>
+          <th style="width:120px;">Status</th>
+          <th style="width:220px;">Updated</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in cases %}
+        <tr>
+          <td class="fw-semibold"><a href="/case/{{ c.id }}">#{{ c.id }}</a></td>
+          <td>
+            <a class="fw-semibold" href="/user/{{ c.user_id }}">{{ c.user_identifier }}</a>
+            <div class="small text-muted">{{ c.user_platform }}</div>
+          </td>
+          <td><span class="badge badge-soft">{{ c.case_type }}</span></td>
+          <td><span class="badge badge-soft">{{ c.platform }}</span></td>
+          <td>
+            {% if c.status == "OPEN" %}
+              <span class="badge badge-open">OPEN</span>
+            {% elif c.status == "CLOSED" %}
+              <span class="badge badge-closed">CLOSED</span>
+            {% else %}
+              <span class="badge badge-archived">ARCHIVED</span>
+            {% endif %}
+          </td>
+          <td class="text-muted">{{ c.updated_at }}</td>
+        </tr>
+        {% endfor %}
+        {% if cases|length == 0 %}
+          <tr><td colspan="6" class="text-muted p-4">No results.</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

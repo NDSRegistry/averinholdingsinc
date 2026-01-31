@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="mb-3">
+  <h1 class="h3 mb-1">Dashboard Analytics</h1>
+  <div class="text-muted">Operational overview and activity trends.</div>
+</div>
+
+<div class="row g-3 mb-3">
+  <div class="col-md-3">
+    <div class="card card-glass p-3">
+      <div class="text-muted small">Total Cases</div>
+      <div class="display-6 fw-bold">{{ total }}</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card card-glass p-3">
+      <div class="text-muted small">Open</div>
+      <div class="display-6 fw-bold">{{ open_count }}</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card card-glass p-3">
+      <div class="text-muted small">Closed</div>
+      <div class="display-6 fw-bold">{{ closed_count }}</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card card-glass p-3">
+      <div class="text-muted small">Archived</div>
+      <div class="display-6 fw-bold">{{ archived_count }}</div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-7">
+    <div class="card card-glass p-3">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <div class="fw-semibold">Case Creation Trend</div>
+        <div class="text-muted small">Last 14 days</div>
+      </div>
+      <canvas id="trend"></canvas>
+    </div>
+  </div>
+
+  <div class="col-lg-5">
+    <div class="card card-glass p-3 mb-3">
+      <div class="fw-semibold mb-2">By Case Type</div>
+      <canvas id="byType"></canvas>
+    </div>
+
+    <div class="card card-glass p-3">
+      <div class="fw-semibold mb-2">By Platform</div>
+      <canvas id="byPlatform"></canvas>
+    </div>
+  </div>
+</div>
+
+<script>
+  const trendDays = {{ trend_days|tojson }};
+  const trendCounts = {{ trend_counts|tojson }};
+  new Chart(document.getElementById('trend'), {
+    type: 'line',
+    data: { labels: trendDays, datasets: [{ label: 'Cases', data: trendCounts, tension: 0.3 }] },
+    options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+
+  const byType = {{ by_type|tojson }};
+  new Chart(document.getElementById('byType'), {
+    type: 'bar',
+    data: { labels: byType.map(x=>x.label), datasets: [{ label: 'Count', data: byType.map(x=>x.value) }] },
+    options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+
+  const byPlatform = {{ by_platform|tojson }};
+  new Chart(document.getElementById('byPlatform'), {
+    type: 'bar',
+    data: { labels: byPlatform.map(x=>x.label), datasets: [{ label: 'Count', data: byPlatform.map(x=>x.value) }] },
+    options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+</script>
+
+{% endblock %}
